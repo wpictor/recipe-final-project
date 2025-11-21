@@ -10,7 +10,8 @@ export function Header() {
     const { sub } = jwtDecode(token)
     return (
       <div>
-        <h1>Welcome to my Blog!</h1>
+        <h1>CS618 Cookbook!</h1>
+        <h3>The site with the best kept recipes</h3>
         Logged in as <User id={sub} />
         <br />
         <button onClick={() => setToken(null)}>Logout</button>
@@ -20,7 +21,8 @@ export function Header() {
 
   return (
     <div>
-      <h1>Welcome to my Blog!</h1>
+      <h1>CS618 Cookbook!</h1>
+      <h3>The site with the best kept recipes</h3>
       <Link to='/login'>Log In</Link> | <Link to='/signup'>SignUp</Link>
     </div>
   )

@@ -6,11 +6,12 @@ import { createPost } from '../api/posts.js'
 export function CreatePost() {
   const [title, setTitle] = useState('')
   const [contents, setContents] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
   const queryClient = useQueryClient()
   const [token] = useAuth()
 
   const createPostMutation = useMutation({
-    mutationFn: () => createPost(token, { title, contents }),
+    mutationFn: () => createPost(token, { title, contents, imageUrl }),
     onSuccess: () => queryClient.invalidateQueries(['posts']),
   })
 
@@ -24,7 +25,7 @@ export function CreatePost() {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor='create-title'>Title: </label>
+        <label htmlFor='create-title'>Recipe Name: </label>
         <input
           type='text'
           name='create-title'
@@ -34,11 +35,23 @@ export function CreatePost() {
         />
       </div>
       <br />
-      <textarea
-        value={contents}
-        onChange={(e) => setContents(e.target.value)}
-      />
+      <div>
+        <label htmlFor='ingredients'>Ingredient List: </label>
+        <textarea
+          value={contents}
+          onChange={(e) => setContents(e.target.value)}
+        />
+      </div>
       <br />
+      <div>
+        <label htmlFor='imageUrl'>Image URL: </label>
+        <input
+          type='text'
+          id='imageUrl'
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+        />
+      </div>
       <br />
       <input
         type='submit'

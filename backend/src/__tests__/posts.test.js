@@ -3,7 +3,7 @@ import { describe, expect, test, beforeEach, beforeAll } from '@jest/globals'
 import {
   createPost,
   listAllPosts,
-  listPostsByTag,
+  //listPostsByTag,
   listPostsByAuthor,
   getPostById,
   updatePost,
@@ -13,18 +13,24 @@ import { Post } from '../db/models/post.js'
 
 import { createUser } from '../services/users.js'
 
+import { initDatabase } from '../db/init.js'
+
+beforeAll(async () => {
+  await initDatabase()
+})
+
 let testUser = null
 let samplePosts = []
 
 beforeAll(async () => {
   testUser = await createUser({ username: 'sample', password: 'user' })
   samplePosts = [
-    { title: 'Learning Redux', author: testUser._id, tags: ['redux'] },
-    { title: 'Learn React Hooks', author: testUser._id, tags: ['react'] },
+    { title: 'Learning Redux', author: testUser._id, imageUrl: 'test url' },
+    { title: 'Learn React Hooks', author: testUser._id, imageUrl: 'test url' },
     {
       title: 'Full-Stack React Projects',
       author: testUser._id,
-      tags: ['react', 'nodejs'],
+      imageUrl: 'test url',
     },
   ]
 })
@@ -100,10 +106,10 @@ describe('listing posts', () => {
     const posts = await listAllPosts()
     expect(posts.length).toEqual(createdSamplePosts.length)
   })
-  test('should be able to filter posts by tag', async () => {
-    const posts = await listPostsByTag('nodejs')
-    expect(posts.length).toBe(1)
-  })
+  //test('should be able to filter posts by tag', async () => {
+  //  const posts = await listPostsByTag('nodejs')
+  //  expect(posts.length).toBe(1)
+  //})
   test('should be able to filter posts by author', async () => {
     const posts = await listPostsByAuthor(testUser.username)
     expect(posts.length).toBe(3)
@@ -136,7 +142,7 @@ describe('creating posts', () => {
     const post = {
       title: 'Hello Mongoose!',
       contents: 'This post is stored in a MongoDB database using Mongoose.',
-      tags: ['mongoose', 'mongodb'],
+      //tags: ['mongoose', 'mongodb'],
     }
     const createdPost = await createPost(testUser._id, post)
     expect(createdPost._id).toBeInstanceOf(mongoose.Types.ObjectId)
@@ -148,7 +154,7 @@ describe('creating posts', () => {
   test('without title should fail', async () => {
     const post = {
       contents: 'Post with no title',
-      tags: ['empty'],
+      //tags: ['empty'],
     }
     try {
       await createPost(testUser._id, post)
