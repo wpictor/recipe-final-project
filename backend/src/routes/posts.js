@@ -6,6 +6,7 @@ import {
   deletePost,
   updatePost,
   createPost,
+  likePost,
 } from '../services/posts.js'
 
 import { requireAuth } from '../middleware/jwt.js'
@@ -48,6 +49,15 @@ export function postsRoutes(app) {
       return res.json(post)
     } catch (err) {
       console.error('error creating post', err)
+      return res.status(500).end()
+    }
+  })
+  app.post('/api/v1/posts/:id/like', requireAuth, async (req, res) => {
+    try {
+      const post = await likePost(req.params.id)
+      return res.json({ likes: post.likes })
+    } catch (err) {
+      console.error('error liking post', err)
       return res.status(500).end()
     }
   })

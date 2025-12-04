@@ -5,7 +5,7 @@ const postSchema = new Schema(
     author: { type: Schema.Types.ObjectId, ref: 'user', required: true },
     contents: { type: String },
     imageUrl: { type: String },
-    //tags: [String],
+    likes: { type: Number, default: 0 },
   },
   { timestamps: true },
 )

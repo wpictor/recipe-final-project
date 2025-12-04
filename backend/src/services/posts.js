@@ -46,3 +46,11 @@ export async function updatePost(
 export async function deletePost(userId, postId) {
   return await Post.deleteOne({ _id: postId, author: userId })
 }
+
+export async function likePost(postId) {
+  return await Post.findByIdAndUpdate(
+    postId,
+    { $inc: { likes: 1 } },
+    { new: true },
+  )
+}

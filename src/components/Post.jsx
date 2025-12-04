@@ -1,7 +1,15 @@
 import PropTypes from 'prop-types'
 import { User } from './User.jsx'
+import { LikePost } from './LikePost.jsx'
 
-export function Post({ title, contents, imageUrl, author: userId }) {
+export function Post({
+  title,
+  contents,
+  imageUrl,
+  author: userId,
+  _id,
+  likes = 0,
+}) {
   return (
     <article>
       <h3>Recipe Name: {title}</h3>
@@ -22,6 +30,10 @@ export function Post({ title, contents, imageUrl, author: userId }) {
           Created and cooked by <User id={userId} />
         </em>
       )}
+      <div>Likes: {likes}</div>
+      <div style={{ marginTop: '8px' }}>
+        <LikePost postId={_id} initialLikes={likes} />
+      </div>
     </article>
   )
 }
@@ -30,4 +42,6 @@ Post.propTypes = {
   contents: PropTypes.string,
   imageUrl: PropTypes.string,
   author: PropTypes.string,
+  _id: PropTypes.string.isRequired,
+  likes: PropTypes.number,
 }
